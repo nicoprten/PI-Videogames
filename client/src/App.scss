@@ -1,0 +1,6 @@
+@use './utilities.scss' as u;
+
+body{
+   background-color: u.$black; 
+   color: u.$white;
+}
