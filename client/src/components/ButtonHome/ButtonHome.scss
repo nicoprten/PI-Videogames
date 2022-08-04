@@ -1,0 +1,17 @@
+@use './../../utilities.scss' as u;
+
+.button-home{
+    display: inline-block;
+    color: u.$green;
+    background-color: u.$black;
+    border: 2px solid u.$white;
+    padding: 1em;
+    font-weight: bold;
+    font-size: 2em;
+    &:hover{
+        color: u.$black;
+        background-color: u.$white;
+        cursor: pointer;
+        transition: .25s;
+    }
+}
