@@ -9,14 +9,7 @@ import Form from './components/Form/Form';
 import { Routes, Route } from 'react-router-dom';
 
 function App() {
-  // const [games, setGames] = useState([]);
 
-  // const callGames = async () => {
-  //   console.log('test')
-  //   const games = await axios.get('http://localhost:3001/videogames');
-  //   console.log(games.data)
-  //   setGames(games.data);
-  // }
   return (
     <div className="App">
       <h1>PrtenGames</h1>

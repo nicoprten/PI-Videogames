@@ -7,8 +7,8 @@ function ButtonHome({ getGames }){
 
     return(
         <>
-            <Link to='/home' className='link-home'>
-                <button className='button-home' onClick={() => getGames()}>Enter</button>
+            <Link to='/home' className='link-home' onClick={() => getGames()}>
+                Enter
             </Link>
         </>
     )

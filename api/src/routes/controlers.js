@@ -14,7 +14,14 @@ const filterDataGame = (dataGame) => {
             // platforms: Array.isArray(game.platforms) ? game.platforms.map(platform => platform.platform.name) : 'No information'
         }
     });
-    return gamesFiltered;
+    let obj = {};
+    const gamesNoRepeated = gamesFiltered.filter( (game) => {
+        if(!obj[game.id]){
+            obj[game.id] = game.name;
+            return game;
+        }
+    })
+    return gamesNoRepeated;
 }
 
 const getAllApi = async () => {
