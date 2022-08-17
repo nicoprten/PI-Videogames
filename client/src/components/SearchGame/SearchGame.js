@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import MenuSearch from './../MenuSearch/MenuSearch';
 import { getGameByName, getGames, delAllGames } from './../../actions/index';
 import { connect } from 'react-redux';
@@ -16,8 +17,8 @@ function SearchGame({ getGameByName, getGames, delAllGames}){
                 e.preventDefault();
                 if(search){
                     delAllGames();
-                    getGameByName(e.target.value);
-                    // setSearch('');
+                    getGameByName(search);
+                    setSearch('');
                 }else{
                     console.log('no escribio nada')
                 }
@@ -28,6 +29,7 @@ function SearchGame({ getGameByName, getGames, delAllGames}){
     
     function handleButton(){
         delAllGames();
+        setSearch(search);
         getGameByName(search);
         setSearch('');
     }
@@ -38,9 +40,13 @@ function SearchGame({ getGameByName, getGames, delAllGames}){
                 <input id='input-search' type='text' placeholder='Search any game' onChange={(e) => setSearch(e.target.value)} value={search}/>
                 <button className='button-search' onClick={() => handleButton()}>SEARCH</button>
                 <button className='button-search' onClick={() => {
+                    setSearch('');
                     delAllGames();
-                    getGames()
+                    getGames();
                 }}>SEE ALL</button>
+                <Link className='button-add' to={'/createGame'}>
+                    ADD GAME
+                </Link>
             </div>
             <MenuSearch />
         </>

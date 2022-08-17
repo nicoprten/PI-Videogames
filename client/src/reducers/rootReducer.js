@@ -1,8 +1,7 @@
 const initialState = {
     games: [],
     // gamesFiltered: [],
-    gameDetail: {},
-    gameCreated: {}
+    gameDetail: {}
 }
 
 export default function rootReducer( state = initialState, action){
@@ -31,6 +30,10 @@ export default function rootReducer( state = initialState, action){
             return {
                 ...state,
                 games: []
+            }
+        case 'POST_GAME':
+            return {
+                ...state
             }
         default:
             return state;

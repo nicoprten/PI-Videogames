@@ -16,6 +16,20 @@
         color: u.$black;
         background-color: u.$white;
         margin: 0 .2em 0 0;
+        padding: .2em;
+        &:hover{
+            background-color: u.$green;
+            cursor: pointer;
+            transition: .3s;
+        }
+    }
+    .button-add{
+        padding: .2em;
+        font-family: 'Oswald';
+        font-size: 1.2em;
+        text-decoration: none;
+        color: u.$black;
+        background-color: u.$white;
         &:hover{
             background-color: u.$green;
             cursor: pointer;

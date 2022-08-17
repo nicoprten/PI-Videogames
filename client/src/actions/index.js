@@ -34,3 +34,15 @@ export function delAllGames(){
 export function delGameDetail(){
     return ({type: 'DEL_GAME_DETAIL'})
 }
+
+export function createGame(game){
+    return async (dispatch) => {
+        try {
+        const newGame = await axios.post('http://localhost:3001/videogames', game)
+        return dispatch({type: 'POST_GAME', newGame});
+        }
+        catch(err){
+            console.log(err)
+        };
+    };
+}

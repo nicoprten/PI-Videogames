@@ -8,6 +8,8 @@ import { Link } from 'react-router-dom';
 
 function Home({ games }){
 
+    const prev = '<<';
+    const next = '>>';
     const [page, setPage] = useState(1);
     const perPage = 15;
 
@@ -18,7 +20,12 @@ function Home({ games }){
 
     const handlePage = function (num){
         setPage(num)
-        console.log(page)
+        // console.log(page)
+    }
+
+    const handlePassPage = function (action){
+        console.log(action)
+        action === '<<' ? setPage(page - 1) : setPage(page + 1);
     }
 
     return(
@@ -47,7 +54,13 @@ function Home({ games }){
                 : <h3 className='waiting-games'>Searching for games...</h3>
                 }
             </div>
-            {games.length > 0 && <Pages allGames={games.length} gamesPerPage={perPage} setPage={handlePage}/>}
+            {games.length > 0 && 
+            <div className='container-pages'>
+                { page > 1 && <button className='pages-button' onClick={(e) => {handlePassPage(prev)}}>{prev}</button>}
+                <Pages allGames={games.length} gamesPerPage={perPage} setPage={handlePage}/>
+                {page < (games.length / 15) && <button className='pages-button' onClick={(e) => {handlePassPage(next)}}>{next}</button>}
+            </div>
+            }
         </>
     )
 }

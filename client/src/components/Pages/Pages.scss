@@ -1,11 +1,12 @@
 @use './../../utilities.scss' as u;
 
-.container-pages{
+.pages-numbers{
     list-style-type: none;
     display: flex;
     gap: .5em;
     justify-content: center;
-    margin: 3em 0;
+    padding: 0;
+    margin: 0;
     .pages-item{
         background-color: u.$green;
         padding: .5em;

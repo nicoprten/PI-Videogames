@@ -9,7 +9,7 @@ export default function Pages({ allGames, gamesPerPage, setPage }){
     }
     return(
         <nav>
-            <ul className='container-pages'>
+            <ul className='pages-numbers'>
                 {
                     pageNumbers && pageNumbers.map(num => {
                         return (

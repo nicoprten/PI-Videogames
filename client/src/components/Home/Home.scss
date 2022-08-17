@@ -69,3 +69,21 @@
         text-align: center;
     }
 }
+.container-pages{
+    display: flex;
+    gap: .5em;
+    justify-content: center;
+    align-items: center;
+    margin: 3em 0;
+    .pages-button{
+        background-color: u.$green;
+        border: none;
+        font-family: 'Oswald';
+        font-weight: bold;
+        &:hover{
+            background-color: u.$white;
+            transition: .3s;
+            cursor: pointer;
+        }
+    }
+}
