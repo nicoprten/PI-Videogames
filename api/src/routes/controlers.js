@@ -53,8 +53,10 @@ const getAll = async () => {
 }
 
 const getGameByName = async (name) => {
-    const games = await axios.get(`https://api.rawg.io/api/games?key=${API_KEY}&search=${name}&page_size=15`);
-    return filterDataGame(games.data.results);
+    if(name){
+        const games = await axios.get(`https://api.rawg.io/api/games?key=${API_KEY}&search=${name}&page_size=15`);
+        return filterDataGame(games.data.results);
+    }
 }
 
 const getGameDetail = async (id, createInDb) => {

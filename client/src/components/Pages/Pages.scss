@@ -1,0 +1,19 @@
+@use './../../utilities.scss' as u;
+
+.container-pages{
+    list-style-type: none;
+    display: flex;
+    gap: .5em;
+    justify-content: center;
+    margin: 3em 0;
+    .pages-item{
+        background-color: u.$green;
+        padding: .5em;
+        color: u.$black;
+        &:hover{
+            cursor: pointer;
+            background-color: u.$white;
+            transition: .3s;
+        }
+    }
+}

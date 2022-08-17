@@ -18,6 +18,19 @@ export function getGameDetail(id, createdInDb){
     }
 }
 
+export function getGameByName(name){
+    return function(dispatch){
+        return axios.get(`http://localhost:3001/videogames?name=${name}`)
+        .then(r => r.data)
+        .then(d => dispatch({type: 'GET_GAME_BY_NAME', payload: d}))
+        .catch(err => console.log(err))
+    }
+}
+
+export function delAllGames(){
+    return ({type: 'DEL_ALL_GAMES'})
+}
+
 export function delGameDetail(){
     return ({type: 'DEL_GAME_DETAIL'})
 }

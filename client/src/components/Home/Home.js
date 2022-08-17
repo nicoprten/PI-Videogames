@@ -1,19 +1,31 @@
 import React from 'react';
+import {useState } from 'react';
 import { connect } from 'react-redux';
 import SearchGame from './../SearchGame/SearchGame';
+import Pages from './../Pages/Pages';
 import './Home.scss';
 import { Link } from 'react-router-dom';
 
 function Home({ games }){
-    React.useEffect(() =>{
-        console.log(games)
-    }, [games])
+
+    const [page, setPage] = useState(1);
+    const perPage = 15;
+
+    const indexLastGame = page * perPage;
+    const indexFirstGame = indexLastGame - perPage;
+
+    const currentGames = games ? games.slice(indexFirstGame, indexLastGame) : 0;
+
+    const handlePage = function (num){
+        setPage(num)
+        console.log(page)
+    }
 
     return(
         <>
             <SearchGame />
             <div className="container-home">
-                {games.length > 0 ? games.map((game) => 
+                {currentGames.length > 0 ? currentGames.map((game) => 
                     <div className='card-game' key={game.id}>
                         <img className='game-image' alt={game.name} src={game.image}/>
                         <div className='game-info'>
@@ -32,9 +44,10 @@ function Home({ games }){
                         </div>
                     </div>
                 )
-                : <h3>Searching for games...</h3>
+                : <h3 className='waiting-games'>Searching for games...</h3>
                 }
             </div>
+            {games.length > 0 && <Pages allGames={games.length} gamesPerPage={perPage} setPage={handlePage}/>}
         </>
     )
 }
