@@ -10,6 +10,7 @@ const filterDataGame = (dataGame) => {
             name: game.name, 
             image: game.background_image,
             genres: game.genres.map(genre => genre.name),
+            rating: game.rating,
             createInDb: false
             // platforms: Array.isArray(game.platforms) ? game.platforms.map(platform => platform.platform.name) : 'No information'
         }
@@ -84,7 +85,12 @@ const getAll = async () => {
 const getGameByName = async (name) => {
     if(name){
         const games = await axios.get(`https://api.rawg.io/api/games?key=${API_KEY}&search=${name}&page_size=15`);
-        return filterDataGame(games.data.results);
+        const gamesFromApi = games.data.results
+        const gamesFromDb = await getAllDb();
+        const gamesDbByName = await gamesFromDb.filter((e) =>{ return e.name.toLowerCase().includes(name)});
+        const allGamesByName = gamesFromApi.concat(gamesDbByName);
+        console.log("dbnn", allGamesByName)
+        return filterDataGame(allGamesByName);
     }
 }
 

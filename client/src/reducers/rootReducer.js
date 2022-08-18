@@ -23,8 +23,8 @@ export default function rootReducer( state = initialState, action){
             return {
                 ...state,
                 allGames: action.payload,
-                gamesByName: action.payload
-                // games: action.payload
+                gamesByName: action.payload,
+                games: action.payload
             }
         case 'DEL_GAME_DETAIL':
             return {
@@ -71,6 +71,7 @@ export default function rootReducer( state = initialState, action){
             else if(action.payload.lastGameSearched && !action.payload.genreFilter && action.payload.createdFilter){
                 if(action.payload.createdFilter === 'true'){
                     gamesFiltered = state.gamesByName.filter((g) => {return g.createInDb === true});
+                    console.log("holaaa",gamesFiltered)
                 }else{
                     gamesFiltered = state.gamesByName.filter((g) => {return g.createInDb === false});
                 }

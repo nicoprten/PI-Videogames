@@ -63,7 +63,7 @@ function MenuSearch({ genres, filterBy, searchValue, orderBy, handleOrder}){
                     </select>
                 </div>
             </div>
-            <div className='container-order'>
+            {/* <div className='container-order'>
                 <h2>ORDER</h2>
                 <div className='order-alphabet'>
                     <select defaultValue={'DEFAULT'} name='alphabet' onChange={(e) => handleOrder(e.target.value)}>
@@ -79,7 +79,7 @@ function MenuSearch({ genres, filterBy, searchValue, orderBy, handleOrder}){
                         <option value='higher'>Higher</option>
                     </select>
                 </div>
-            </div>
+            </div> */}
         </div>
     )
 }

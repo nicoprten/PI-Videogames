@@ -11,21 +11,15 @@ import { orderBy } from './../../actions/index';
 function Home({ allGames, getGames, getGenres, searchFilters, orderBy }){
     const [order, setOrder] = useState('');
     
-    function handleOrder(value){
-        setOrder(value);
-    }
-    
-    useEffect(() => {
-        
-    }, [allGames])
+    function handleOrder (value) {
+        orderBy(value);
+        setPage(1);
+        setOrder(value)
+    };
 
     useEffect(() =>{
-        // console.log(allGames)
-        handleOrder(order)
-        orderBy(order)
-        setPage(2)
-        setPage(1);
-    }, [order, orderBy])
+        orderBy(order);
+    }, [allGames, order, orderBy])
 
     useEffect(() =>{
         getGames();
@@ -55,6 +49,23 @@ function Home({ allGames, getGames, getGenres, searchFilters, orderBy }){
     return(
         <>
             <SearchGame handleOrder={handleOrder}/>
+            <div className='container-order'>
+                <h2>ORDER</h2>
+                <div className='order-alphabet'>
+                    <select defaultValue={'DEFAULT'} name='alphabet' onChange={(e) => handleOrder(e.target.value)}>
+                        <option value="DEFAULT" disabled>Alphabet</option>
+                        <option value='desc'>A-Z</option>
+                        <option value='asc'>Z-A</option>
+                    </select>
+                </div>
+                <div className='order-rating'>
+                <select defaultValue={'DEFAULT'} name='rating' onChange={(e) => handleOrder(e.target.value)}>
+                        <option value="DEFAULT" disabled>Rating</option>
+                        <option value='lower'>Lower</option>
+                        <option value='higher'>Higher</option>
+                    </select>
+                </div>
+            </div>
             <div className="container-home">
                 {currentGames.length > 0 ? currentGames.map((game) => 
                     <div className='card-game' key={game.id}>
