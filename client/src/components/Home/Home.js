@@ -6,10 +6,26 @@ import Pages from './../Pages/Pages';
 import './Home.scss';
 import { Link } from 'react-router-dom';
 import { getGames, getGenres } from './../../actions/index';
+import { orderBy } from './../../actions/index';
 
-function Home({ allGames, getGames, getGenres, searchFilters }){
-    console.log(allGames)
+function Home({ allGames, getGames, getGenres, searchFilters, orderBy }){
+    const [order, setOrder] = useState('');
+    
+    function handleOrder(value){
+        setOrder(value);
+    }
+    
+    useEffect(() => {
+        
+    }, [allGames])
 
+    useEffect(() =>{
+        // console.log(allGames)
+        handleOrder(order)
+        orderBy(order)
+        setPage(2)
+        setPage(1);
+    }, [order, orderBy])
 
     useEffect(() =>{
         getGames();
@@ -38,7 +54,7 @@ function Home({ allGames, getGames, getGenres, searchFilters }){
 
     return(
         <>
-            <SearchGame />
+            <SearchGame handleOrder={handleOrder}/>
             <div className="container-home">
                 {currentGames.length > 0 ? currentGames.map((game) => 
                     <div className='card-game' key={game.id}>
@@ -80,4 +96,4 @@ const mapStateToProps = (state) =>{
     }
 }
 
-export default connect(mapStateToProps, { getGames, getGenres })(Home);
+export default connect(mapStateToProps, { getGames, getGenres, orderBy })(Home);

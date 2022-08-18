@@ -2,16 +2,23 @@ import './MenuSearch.scss';
 import { connect } from 'react-redux';
 import './MenuSearch.scss';
 import { useEffect, useState } from 'react';
-import { filterBy } from './../../actions/index';
+import { filterBy, orderBy } from './../../actions/index';
 
-function MenuSearch({ genres, filterBy, searchValue}){
+function MenuSearch({ genres, filterBy, searchValue, orderBy, handleOrder}){
 
     const [filterByGenre, setFilterByGenre] = useState('');
     const [filterByCreated, setFilterByCreated] = useState('');
+    // const [order, setOrder] = useState('');
 
     
+    // useEffect(() =>{
+    //     if(order !== ''){
+    //         orderBy(order);
+    //     }
+    // }, [order, orderBy])
+
     useEffect(() =>{
-        // console.log('searchValue')
+        console.log(searchValue)
         let filters = {
             createdFilter: filterByCreated,
             genreFilter: filterByGenre,
@@ -20,7 +27,6 @@ function MenuSearch({ genres, filterBy, searchValue}){
         console.log(filters)
         if(filters.createdFilter !== '' || filters.genreFilter !== '' || filters.lastGameSearched !== ''){
             filterBy(filters);
-            console.log('se llamom a la action')
         }
     }, [genres, filterBy, filterByCreated, filterByGenre, searchValue])
 
@@ -32,6 +38,10 @@ function MenuSearch({ genres, filterBy, searchValue}){
             setFilterByGenre(value)
         }
     }
+
+    // function handleOrder(value){
+    //     setOrder(value);
+    // }
 
     return(
         <div className='container-filter-order'>
@@ -56,14 +66,14 @@ function MenuSearch({ genres, filterBy, searchValue}){
             <div className='container-order'>
                 <h2>ORDER</h2>
                 <div className='order-alphabet'>
-                    <select defaultValue={'DEFAULT'} name='alphabet' onChange={(e) => console.log(e.target.value)}>
+                    <select defaultValue={'DEFAULT'} name='alphabet' onChange={(e) => handleOrder(e.target.value)}>
                         <option value="DEFAULT" disabled>Alphabet</option>
                         <option value='desc'>A-Z</option>
                         <option value='asc'>Z-A</option>
                     </select>
                 </div>
                 <div className='order-rating'>
-                <select defaultValue={'DEFAULT'} name='rating' onChange={(e) => console.log(e.target.value)}>
+                <select defaultValue={'DEFAULT'} name='rating' onChange={(e) => handleOrder(e.target.value)}>
                         <option value="DEFAULT" disabled>Rating</option>
                         <option value='lower'>Lower</option>
                         <option value='higher'>Higher</option>
@@ -80,4 +90,4 @@ const mapStateToProps = (state) =>{
     }
 }
 
-export default connect(mapStateToProps, { filterBy })(MenuSearch);
+export default connect(mapStateToProps, { filterBy, orderBy })(MenuSearch);

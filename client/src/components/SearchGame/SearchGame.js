@@ -5,7 +5,7 @@ import { getGameByName, getGames, delAllGames } from './../../actions/index';
 import { connect } from 'react-redux';
 import './SearchGame.scss';
 
-function SearchGame({ getGameByName, getGames, delAllGames}){
+function SearchGame({ getGameByName, getGames, delAllGames, handleOrder}){
     const [search, setSearch] = useState('');
 
 
@@ -20,9 +20,9 @@ function SearchGame({ getGameByName, getGames, delAllGames}){
             if(e.key === 'Enter'){
                 e.preventDefault();
                 if(search){
-                    delAllGames();
+                    // delAllGames();
                     getGameByName(search);
-                    setSearch('');
+                    // setSearch('');
                 }else{
                     console.log('no escribio nada')
                 }
@@ -32,10 +32,10 @@ function SearchGame({ getGameByName, getGames, delAllGames}){
     }, [getGameByName, search, delAllGames])
     
     function handleButton(){
-        delAllGames();
+        // delAllGames();
         setSearch(search);
         getGameByName(search);
-        setSearch('');
+        // setSearch('');
     }
 
     return(
@@ -44,7 +44,7 @@ function SearchGame({ getGameByName, getGames, delAllGames}){
                 <input id='input-search' type='text' placeholder='Search any game' onChange={(e) => setSearch(e.target.value)} value={search}/>
                 <button className='button-search' onClick={() => handleButton()}>SEARCH</button>
                 <button className='button-search' onClick={() => {
-                    setSearch('');
+                    // setSearch('');
                     delAllGames();
                     getGames();
                 }}>SEE ALL</button>
@@ -52,7 +52,7 @@ function SearchGame({ getGameByName, getGames, delAllGames}){
                     ADD GAME
                 </Link>
             </div>
-            <MenuSearch searchValue={search}/>
+            <MenuSearch handleOrder={handleOrder} searchValue={search}/>
         </>
     )
 }

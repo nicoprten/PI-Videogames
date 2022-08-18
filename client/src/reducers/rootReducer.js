@@ -1,7 +1,7 @@
 const initialState = {
     allGames: [],
     games: [],
-    searchFilters: {},
+    gamesByName: [],
     gameDetail: {},
     genres: []
 }
@@ -23,6 +23,7 @@ export default function rootReducer( state = initialState, action){
             return {
                 ...state,
                 allGames: action.payload,
+                gamesByName: action.payload
                 // games: action.payload
             }
         case 'DEL_GAME_DETAIL':
@@ -51,23 +52,45 @@ export default function rootReducer( state = initialState, action){
             // if(!action.payload.lastGameSearched){
             //     console.log('NO EXISTE')
             // }
+
+            // POR NOMBRE Y GENERO Y CREADO EN BBDD
             if(action.payload.lastGameSearched && action.payload.genreFilter && action.payload.createdFilter){
-                gamesFiltered = state.games.filter(g => g.genre === action.payload.genreFilter && g.genre === action.payload.createdFilter);
+                let gamesFilterByCreated = [];
+                if(action.payload.createdFilter === 'true'){
+                    gamesFilterByCreated = state.gamesByName.filter((g) => {return g.createInDb === true});
+                }else{
+                    gamesFilterByCreated = state.gamesByName.filter((g) => {return g.createInDb === false});
+                }
+                gamesFiltered = gamesFilterByCreated.filter((g) => {return g.genres.includes(action.payload.genreFilter)});
             }
-            if(action.payload.lastGameSearched && action.payload.genreFilter && !action.payload.createdFilter){
-                gamesFiltered = state.games.filter(g => g.genre === action.payload.genreFilter);
+            // POR NOMBRE Y GENERO
+            else if(action.payload.lastGameSearched && action.payload.genreFilter && !action.payload.createdFilter){
+                gamesFiltered = state.gamesByName.filter((g) => {return g.genres.includes(action.payload.genreFilter)});
             }
-            if(action.payload.lastGameSearched && !action.payload.genreFilter && action.payload.createdFilter){
-                gamesFiltered = state.games.filter(g => g.genre === action.payload.createdFilter);
+            // POR NOMBRE Y CREADO EN BBDD
+            else if(action.payload.lastGameSearched && !action.payload.genreFilter && action.payload.createdFilter){
+                if(action.payload.createdFilter === 'true'){
+                    gamesFiltered = state.gamesByName.filter((g) => {return g.createInDb === true});
+                }else{
+                    gamesFiltered = state.gamesByName.filter((g) => {return g.createInDb === false});
+                }
             }
-            if(!action.payload.lastGameSearched && action.payload.genreFilter && action.payload.createdFilter){
-                gamesFiltered = state.games.filter(g => g.genre === action.payload.genreFilter && g.genre === action.payload.createdFilter);
+            // POR GENERO Y CREADO EN BBDD
+            else if(!action.payload.lastGameSearched && action.payload.genreFilter && action.payload.createdFilter){
+                console.log('POR GENERO Y BBDD')
+                gamesFiltered = state.games.filter((g) => {return g.genres.includes(action.payload.genreFilter)});
+                if(action.payload.createdFilter === 'true'){
+                    gamesFiltered = gamesFiltered.filter((g) => {return g.createInDb === true});
+                }else{
+                    gamesFiltered = gamesFiltered.filter((g) => {return g.createInDb === false});
+                }
             }
-            if(!action.payload.lastGameSearched && action.payload.genreFilter && !action.payload.createdFilter){
+            // SOLO POR GENERO
+            else if(!action.payload.lastGameSearched && action.payload.genreFilter && !action.payload.createdFilter){
                 gamesFiltered = state.games.filter((g) => {return g.genres.includes(action.payload.genreFilter)});
             }
-            if(!action.payload.lastGameSearched && !action.payload.genreFilter && action.payload.createdFilter){
-                // gamesFiltered = state.games.filter((g) => {return g.createInDb === action.payload.createdFilter});
+            // SOLO POR CREADO EN BBDD O NO
+            else if(!action.payload.lastGameSearched && !action.payload.genreFilter && action.payload.createdFilter){
                 if(action.payload.createdFilter === 'true'){
                     gamesFiltered = state.games.filter((g) => {return g.createInDb === true});
                 }else{
@@ -81,13 +104,53 @@ export default function rootReducer( state = initialState, action){
                 ...state,
                 allGames: gamesFiltered
             }
-        // case 'ORDER_BY':
-        //     if(action.payload === '')
-        //     const gamesOrdered = 
-        //     return {
-        //         ...state,
-        //         games: gamesOrdered
-        //     }
+        case 'ORDER_BY':
+            console.log('action.payload')
+            if (state.allGames) {
+                console.log(action.payload)
+                if (action.payload === 'higher' || action.payload === 'lower') {
+                    // console.log('higher or lower')
+                    const orderedGamesbyRating = action.payload === 'higher' ? 
+                        state.allGames.sort ((a,b)=> {
+                            if (a.rating < b.rating) return 1;
+                            if (a.rating > b.rating) return -1;
+                            return 0;
+                        })
+                        : state.allGames.sort ((a,b)=> {
+                            if (a.rating > b.rating) return 1;
+                            if (a.rating < b.rating) return -1;
+                            return 0;
+                        });
+                        console.log(orderedGamesbyRating);
+                    return {
+                        ...state,
+                        allGames: orderedGamesbyRating
+                    }
+                }else if (action.payload === 'asc' || action.payload === 'desc') {
+                    const orderedGames = action.payload === 'asc' ? 
+                    state.allGames.sort ((a,b)=> {
+                        if (a.name.toLowerCase() < b.name.toLowerCase()) return 1;
+                        if (a.name.toLowerCase() > b.name.toLowerCase()) return -1;
+                        return 0;
+                    })
+                    : state.allGames.sort ((a,b)=> {
+                        if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+                        if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+                        return 0;
+                    })
+                    return {
+                        ...state,
+                        allGames: orderedGames
+                    };   
+                }else {
+                    return {
+                        ...state
+                    }
+                }
+            }
+            return {
+                ...state
+            }
         default:
             return state;
     }

@@ -61,5 +61,5 @@ export function orderBy(order){
 }
 
 export function filterBy(filters){
-    return{type: 'FILTER_BY', payload: filters};
+    return {type: 'FILTER_BY', payload: filters};
 }
