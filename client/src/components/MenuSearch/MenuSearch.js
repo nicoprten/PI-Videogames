@@ -1,18 +1,44 @@
 import './MenuSearch.scss';
 import { connect } from 'react-redux';
 import './MenuSearch.scss';
-// import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { filterBy } from './../../actions/index';
 
-function MenuSearch({ genres }){
-    // useEffect(() =>{
-    //     console.log(genres)
-    // }, [genres])
+function MenuSearch({ genres, filterBy, searchValue}){
+
+    const [filterByGenre, setFilterByGenre] = useState('');
+    const [filterByCreated, setFilterByCreated] = useState('');
+
+    
+    useEffect(() =>{
+        // console.log('searchValue')
+        let filters = {
+            createdFilter: filterByCreated,
+            genreFilter: filterByGenre,
+            lastGameSearched: searchValue
+        };
+        console.log(filters)
+        if(filters.createdFilter !== '' || filters.genreFilter !== '' || filters.lastGameSearched !== ''){
+            filterBy(filters);
+            console.log('se llamom a la action')
+        }
+    }, [genres, filterBy, filterByCreated, filterByGenre, searchValue])
+
+
+    function handleOnSelect(value){
+        if(value === 'true' || value === 'false'){
+            setFilterByCreated(value)
+        }else{
+            setFilterByGenre(value)
+        }
+    }
+
     return(
         <div className='container-filter-order'>
             <div className='container-filter'>
                 <h2>FILTER</h2>
                 <div className='filter-genre'>
-                    <select defaultValue={'DEFAULT'} name='genre' onChange={(e) => console.log(e.target.value)}>
+                    <select defaultValue={'DEFAULT'} name='genre' onChange={(e) => handleOnSelect(e.target.value)}>
                         <option value="DEFAULT" disabled>Genre</option>
                         {genres.length > 1 && genres.map((g, index) => 
                             <option key={index} value={g.name}>{g.name}</option>
@@ -20,7 +46,7 @@ function MenuSearch({ genres }){
                     </select>
                 </div>
                 <div className='filter-createdInDb'>
-                    <select defaultValue={'DEFAULT'} name='createdInDb' onChange={(e) => console.log(e.target.value)}>
+                    <select defaultValue={'DEFAULT'} name='createdInDb' onChange={(e) => handleOnSelect(e.target.value)}>
                         <option value="DEFAULT" disabled>Created</option>
                         <option value='true'>True</option>
                         <option value='false'>False</option>
@@ -54,4 +80,4 @@ const mapStateToProps = (state) =>{
     }
 }
 
-export default connect(mapStateToProps, { })(MenuSearch);
+export default connect(mapStateToProps, { filterBy })(MenuSearch);

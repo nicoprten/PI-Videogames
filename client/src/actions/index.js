@@ -55,3 +55,11 @@ export function getGenres(){
         .catch(err => console.log(err))
     }
 }
+
+export function orderBy(order){
+    return{type: 'ORDER_BY', payload: order};
+}
+
+export function filterBy(filters){
+    return{type: 'FILTER_BY', payload: filters};
+}

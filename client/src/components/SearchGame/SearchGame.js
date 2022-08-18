@@ -7,10 +7,14 @@ import './SearchGame.scss';
 
 function SearchGame({ getGameByName, getGames, delAllGames}){
     const [search, setSearch] = useState('');
+
+
     // const [checkSearch, setCheckSearch] = useState(false);
 
-    console.log(search)
+    // console.log(search)
     useEffect(() =>{
+        console.log(search)
+        
         let inputSearch = document.getElementById('input-search');
         inputSearch.addEventListener('keydown', (e) => {
             if(e.key === 'Enter'){
@@ -48,7 +52,7 @@ function SearchGame({ getGameByName, getGames, delAllGames}){
                     ADD GAME
                 </Link>
             </div>
-            <MenuSearch />
+            <MenuSearch searchValue={search}/>
         </>
     )
 }

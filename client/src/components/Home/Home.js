@@ -7,8 +7,9 @@ import './Home.scss';
 import { Link } from 'react-router-dom';
 import { getGames, getGenres } from './../../actions/index';
 
-function Home({ games, getGames, getGenres }){
-    console.log(games)
+function Home({ allGames, getGames, getGenres, searchFilters }){
+    console.log(allGames)
+
 
     useEffect(() =>{
         getGames();
@@ -23,7 +24,7 @@ function Home({ games, getGames, getGenres }){
     const indexLastGame = page * perPage;
     const indexFirstGame = indexLastGame - perPage;
 
-    const currentGames = games ? games.slice(indexFirstGame, indexLastGame) : 0;
+    const currentGames = allGames ? allGames.slice(indexFirstGame, indexLastGame) : 0;
 
     const handlePage = function (num){
         setPage(num)
@@ -61,11 +62,11 @@ function Home({ games, getGames, getGenres }){
                 : <h3 className='waiting-games'>Searching for games...</h3>
                 }
             </div>
-            {games.length > 0 && 
+            {allGames.length > 0 && 
             <div className='container-pages'>
                 { page > 1 && <button className='pages-button' onClick={(e) => {handlePassPage(prev)}}>{prev}</button>}
-                <Pages allGames={games.length} gamesPerPage={perPage} setPage={handlePage}/>
-                {page < (games.length / 15) && <button className='pages-button' onClick={(e) => {handlePassPage(next)}}>{next}</button>}
+                <Pages allGames={allGames.length} gamesPerPage={perPage} setPage={handlePage}/>
+                {page < (allGames.length / 15) && <button className='pages-button' onClick={(e) => {handlePassPage(next)}}>{next}</button>}
             </div>
             }
         </>
@@ -74,7 +75,8 @@ function Home({ games, getGames, getGenres }){
 
 const mapStateToProps = (state) =>{
     return {
-        games: state.games
+        allGames: state.allGames,
+        searchFilters: state.searchFilters
     }
 }
 
