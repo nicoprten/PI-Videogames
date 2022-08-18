@@ -46,3 +46,12 @@ export function createGame(game){
         };
     };
 }
+
+export function getGenres(){
+    return function(dispatch){
+        return axios.get(`http://localhost:3001/genres`)
+        .then(r => r.data)
+        .then(d => dispatch({type: 'GET_GENRES', payload: d}))
+        .catch(err => console.log(err))
+    }
+}

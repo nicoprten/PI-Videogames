@@ -56,27 +56,22 @@ router.get('/genres', async (req, res) => {
 })
 
 router.post('/videogames', async (req, res) =>{
-    const {name, description, date, rating, platforms, image, genre} = req.body;
-    try{
-        const newGame = await Videogame.create({
-            name, 
-            description,
-            date,
-            rating,
-            platforms,
-            image
-        });
-        const genres = await Genre.findAll({
-            where: {
-                name: genre
-            }
-        });
-        newGame.addGenre(genres);
-        return res.status(200).send('New game created.');
-    }
-    catch(err){
-        res.status(400).send(err);
-    }
+    const {name, description, date, rating, platforms, image, genres} = req.body;
+    const newGame = await Videogame.create({
+        name, 
+        description,
+        released: date,
+        rating,
+        platforms,
+        image
+    });
+    const genresDb = await Genre.findAll({
+        where: {
+            name: genres
+        }
+    });
+    newGame.addGenre(genresDb);
+    return res.status(200).send('New game created.');
 
 })
 

@@ -3,7 +3,7 @@ import './Pages.scss';
 export default function Pages({ allGames, gamesPerPage, setPage }){
 
     const pageNumbers = [];
-    console.log(allGames)
+    // console.log(allGames)
     for (let i = 1; i <= Math.ceil(allGames / gamesPerPage); i++) {
         pageNumbers.push(i);
     }

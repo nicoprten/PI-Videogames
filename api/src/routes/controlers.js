@@ -33,18 +33,47 @@ const getAllApi = async () => {
 }
 
 
+// const getAllDb = async () => {
+//     const gamesDb = await Videogame.findAll(
+//         {
+//             include: [{
+//                 model: Genre,
+//                 attributes: ['name']
+//             }],
+//             attributes: ['id', 'name', 'image', 'createInDb']
+//         }
+//     );
+//     return gamesDb;
+// }
+
 const getAllDb = async () => {
-    const gamesDb = await Videogame.findAll(
+    const genres = await Videogame.findAll(
         {
-            include: [{
-                model: Genre,
-                attributes: ['name']
-            }],
-            attributes: ['id', 'name', 'image', 'createInDb']
+        include: {
+            model: Genre,
+            attributes: ["name"],
+            through: {
+                attributes: []
+            }
         }
+    }
     );
-    return gamesDb;
-}
+
+    const allDbGames = genres.map (e => {
+        return {
+            id : e.id,
+            name : e.name,
+            description: e.description,
+            releaseDate: e.released,
+            rating: e.rating,
+            platform: e.platforms,
+            image: e.image,
+            genres: e.genres.map(e => e.name),
+            createInDb: true
+    }})
+    ;   
+    return allDbGames;
+};
 
 const getAll = async () => {
     const gamesFromApi = await getAllApi();
@@ -106,7 +135,7 @@ const getGenre = async () =>{
                 )
             )
         })
-        return 'New genres saved.';
+        return newGenres;
     }
 }
 

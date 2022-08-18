@@ -1,12 +1,19 @@
 import React from 'react';
-import {useState } from 'react';
+import { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import SearchGame from './../SearchGame/SearchGame';
 import Pages from './../Pages/Pages';
 import './Home.scss';
 import { Link } from 'react-router-dom';
+import { getGames, getGenres } from './../../actions/index';
 
-function Home({ games }){
+function Home({ games, getGames, getGenres }){
+    console.log(games)
+
+    useEffect(() =>{
+        getGames();
+        getGenres();
+    }, [getGames, getGenres])
 
     const prev = '<<';
     const next = '>>';
@@ -71,4 +78,4 @@ const mapStateToProps = (state) =>{
     }
 }
 
-export default connect(mapStateToProps, { })(Home);
+export default connect(mapStateToProps, { getGames, getGenres })(Home);

@@ -6,7 +6,7 @@ import React from 'react';
 import './GameDetail.scss';
 
 function GameDetail({getGameDetail, delGameDetail, gameDetail}){
-
+    console.log(gameDetail)
     let params = useParams();
     React.useEffect(() =>{
         getGameDetail(params.id, params.createdInDb);
